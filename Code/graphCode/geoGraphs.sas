@@ -1,0 +1,62 @@
+proc template;
+define statgraph sgdesign;
+dynamic _ILOSC _GEO2 _OS;
+begingraph / designwidth=1000 designheight=375;
+   entrytitle halign=center 'Popularnoœæ systemów operacyjnych w zaleznoœci od pañstw';
+   layout lattice / rowdatarange=data columndatarange=data rowgutter=10 columngutter=10;
+      layout overlay / walldisplay=(FILL) xaxisopts=( reverse=false display=(TICKS LINE LABEL TICKVALUES ) discreteopts=( tickvaluefitpolicy=splitrotate));
+         barchart category=_GEO2 response=_ILOSC / group=_OS name='bar' stat=mean barlabel=true barlabelattrs=GraphLabel2Text barwidth=0.85 groupdisplay=Cluster clusterwidth=0.85;
+      endlayout;
+      sidebar / align=bottom spacefill=false;
+         discretelegend 'bar' / opaque=true border=true halign=center valign=center displayclipped=true;
+      endsidebar;
+   endlayout;
+endgraph;
+end;
+run;
+
+proc sgrender data=GEO.OSGEOSORT template=sgdesign;
+dynamic _ILOSC="ILOSC" _GEO2="GEO" _OS="OS";
+run;
+*HERE IS THE SAME TEMPLATE AS LOWER BUT WE ADD YAXISOPTS AND VIEWMAX 50;
+proc template;
+define statgraph Graph2;
+dynamic _GEO _ILOSC _BROWSERGETNAME;
+begingraph / designwidth=1000 designheight=375;
+   entrytitle halign=center 'Popularnoœæ przegl¹darek w zaleznoœci od pañstw';
+   layout lattice / rowdatarange=data columndatarange=data rowgutter=10 columngutter=10;
+      layout overlay / xaxisopts=( discreteopts=( tickvaluefitpolicy=splitrotate)) yaxisopts=( linearopts=( viewmin=0.0 viewmax=50.0));
+         barchart category=_GEO response=_ILOSC / group=_BROWSERGETNAME name='bar' stat=mean barlabel=true barwidth=1.0 groupdisplay=Cluster clusterwidth=0.85;
+      endlayout;
+      sidebar / align=bottom spacefill=false;
+         discretelegend 'bar' / opaque=true border=true halign=center valign=center displayclipped=true;
+      endsidebar;
+   endlayout;
+endgraph;
+end;
+run;
+
+proc sgrender data=GEO.BROWSERGEOSORT template=Graph2;
+dynamic _GEO="GEO" _ILOSC="ILOSC" _BROWSERGETNAME="BROWSERGETNAME";
+run;
+
+
+proc template;
+define statgraph Graph2;
+dynamic _GEO _ILOSC _BROWSERGETNAME;
+begingraph / designwidth=1000 designheight=375;
+   layout lattice / rowdatarange=data columndatarange=data rowgutter=10 columngutter=10;
+      layout overlay / xaxisopts=( discreteopts=( tickvaluefitpolicy=splitrotate));
+         barchart category=_GEO response=_ILOSC / group=_BROWSERGETNAME name='bar' stat=mean barlabel=true barwidth=1.0 groupdisplay=Cluster clusterwidth=0.85;
+      endlayout;
+      sidebar / align=bottom spacefill=false;
+         discretelegend 'bar' / opaque=true border=true halign=center valign=center displayclipped=true;
+      endsidebar;
+   endlayout;
+endgraph;
+end;
+run;
+
+proc sgrender data=GEO.BROWSERGEOSORT template=Graph2;
+dynamic _GEO="GEO" _ILOSC="ILOSC" _BROWSERGETNAME="BROWSERGETNAME";
+run;
